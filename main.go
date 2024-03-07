@@ -43,17 +43,17 @@ type Item struct {
 }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	client := airtable.NewClient("keyeKStkouk4crjCU")
-	table := client.GetTable("appLALGhpqftoORtP", "tblALpCXZI9OA9b0s")
+	client := airtable.NewClient("")
+	table := client.GetTable("", "")
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String("ap-southeast-1"),
-		Credentials: credentials.NewStaticCredentials("AKIAQXDY6EKNDCUYK3NY", "YpYbe0pXqfxpZqRCuGUhNgcatCPPQpIwdJZAZVQe", ""),
+		Credentials: credentials.NewStaticCredentials("", "", ""),
 	})
 	checkerr(err)
 	svc := dynamodb.New(sess)
 	bot, err := linebot.New(
-		"c980189c232e59b6ddc28a1c8dee3765",
-		"+Esrwm4l5O7Vg/4KY44RuYruWj5AfTmN18dlCQv/IUjcbS781HGs1w0vgC1tymZwHR2MtwyeYSTA7wJldMstGB37Cz9QWlESf+1YfXnuPAMOEXhvo4NcX1vn98LbEZDFSFCRMHSjBO/xOoYB1JWDegdB04t89/1O/w1cDnyilFU=",
+		"",
+		"",
 	)
 	if err != nil {
 		log.Print(err)
@@ -64,7 +64,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 	log.Print(request.Headers)
 	log.Print(request.Body)
-	if !validateSignature("c980189c232e59b6ddc28a1c8dee3765", request.Headers["x-line-signature"], []byte(request.Body)) {
+	if !validateSignature("", request.Headers["x-line-signature"], []byte(request.Body)) {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusBadRequest,
 			Body:       fmt.Sprintf(`{"message":"%s"}`+"\n", linebot.ErrInvalidSignature.Error()),
